@@ -3,41 +3,45 @@ package br.com.aleandro.java.back.end.controllers;
 import br.com.aleandro.java.back.end.dtos.UserDTO;
 import br.com.aleandro.java.back.end.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
 
     @Autowired
     private UserService userService;
 
-    @GetMapping("/user/")
+    @GetMapping("/all")
     public List<UserDTO> getUsers() {
         return userService.getAll();
     }
-    @GetMapping("/user/{id}")
-    UserDTO findById(@PathVariable Long id) {
-        return userService.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
+        UserDTO userDTO = userService.findById(id);
+        return userDTO != null ? ResponseEntity.ok(userDTO) : ResponseEntity.noContent().build();
     }
-    @PostMapping("/user")
-    UserDTO newUser(@RequestBody UserDTO userDTO) {
-        return userService.save(userDTO);
+    @PostMapping("/")
+    public ResponseEntity<UserDTO> newUser(@RequestBody UserDTO userDTO) {
+        UserDTO userSaved = userService.save(userDTO);
+        return userSaved != null ? ResponseEntity.ok(userSaved) : ResponseEntity.noContent().build();
     }
-    @GetMapping("/user/cpf/{cpf}")
-    UserDTO findByCpf(@PathVariable String cpf) {
-        return userService.findByCpf(cpf);
+    @GetMapping("/cpf/{cpf}")
+    public ResponseEntity<UserDTO> findByCpf(@PathVariable String cpf) {
+        UserDTO userDTO = userService.findByCpf(cpf);
+        return userDTO != null ? ResponseEntity.ok(userDTO) : ResponseEntity.noContent().build();
     }
 
-    @DeleteMapping("/user/{id}")
+    @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {
         userService.delete(id);
     }
-    @GetMapping("/user/search")
-    public List<UserDTO> queryByName(
-            @RequestParam(name="nome", required = true)
-            String nome) {
-        return userService.queryByName(nome);
+    @GetMapping("/search")
+    public ResponseEntity<List<UserDTO>> queryByName(@RequestParam(name="nome", required = true) String nome) {
+        List<UserDTO> users = userService.queryByName(nome);
+        return !users.isEmpty() ? ResponseEntity.ok(userService.queryByName(nome)) : ResponseEntity.noContent().build();
     }
 }
