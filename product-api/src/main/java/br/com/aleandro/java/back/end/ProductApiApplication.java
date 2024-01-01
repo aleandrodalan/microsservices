@@ -1,4 +1,4 @@
-package br.com.aleandro.java.back.end.productapi;
+package br.com.aleandro.java.back.end;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,4 +1,4 @@
-package br.com.aleandro.java.back.end.productapi;
+package br.com.aleandro.java.back.end;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
