@@ -24,12 +24,14 @@ public class Product {
 
     public static Product convert(ProductDTO productDTO) {
         Product product = new Product();
+        product.setNome(productDTO.getNome());
         product.setPreco(productDTO.getPreco());
-        product.setDescricao(productDTO.getDescricao());
         product.setProductIdentifier(productDTO.getProductIdentifier());
+        product.setDescricao(productDTO.getDescricao());
 
         if (productDTO.getCategoryDTO() != null) {
-            product.setCategory(Category.convert(productDTO.getCategoryDTO()));
+            product.setCategory(
+                    Category.convert(productDTO.getCategoryDTO()));
         }
         return product;
     }
